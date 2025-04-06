@@ -246,7 +246,7 @@ func (e *Engine) optimizeIndex(id uint64, newWords []string) ([]string, bool) {
 	// 计算差值
 	removes, inserts, changed := e.getDifference(id, newWords)
 	if changed {
-		if removes != nil && len(removes) > 0 {
+		if len(removes) > 0 {
 			// 移除正排索引
 			for _, word := range removes {
 				e.removeIdInWordIndex(id, word)
@@ -608,8 +608,12 @@ func (e *Engine) Close() {
 	defer e.Unlock()
 
 	for i := 0; i < e.Shard; i++ {
-		e.invertedIndexStorages[i].Close()
-		e.positiveIndexStorages[i].Close()
+		if err := e.invertedIndexStorages[i].Close(); err != nil {
+			return
+		}
+		if err := e.positiveIndexStorages[i].Close(); err != nil {
+			return
+		}
 	}
 }
 

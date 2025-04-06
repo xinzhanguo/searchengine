@@ -53,21 +53,6 @@ func Decoder(data []byte, v interface{}) {
 	}
 }
 
-const (
-	c1 = 0xcc9e2d51
-	c2 = 0x1b873593
-	c3 = 0x85ebca6b
-	c4 = 0xc2b2ae35
-	r1 = 15
-	r2 = 13
-	m  = 5
-	n  = 0xe6546b64
-)
-
-var (
-	Seed = uint64(1)
-)
-
 func Murmur3(key []byte) uint64 {
 	hasher := murmur3.New64WithSeed(1)
 	n, err := hasher.Write(key)
@@ -76,46 +61,6 @@ func Murmur3(key []byte) uint64 {
 	x := hasher.Sum64()
 	fmt.Println(x)
 	return x
-}
-
-func Murmur32(key []byte) (hash uint64) {
-	hash = Seed
-	iByte := 0
-	for ; iByte+4 <= len(key); iByte += 4 {
-		k := uint64(key[iByte]) | uint64(key[iByte+1])<<8 | uint64(key[iByte+2])<<16 | uint64(key[iByte+3])<<24
-		k *= c1
-		k = (k << r1) | (k >> (32 - r1))
-		k *= c2
-		hash ^= k
-		hash = (hash << r2) | (hash >> (32 - r2))
-		hash = hash*m + n
-	}
-
-	var remainingBytes uint64
-	switch len(key) - iByte {
-	case 3:
-		remainingBytes += uint64(key[iByte+2]) << 16
-		fallthrough
-	case 2:
-		remainingBytes += uint64(key[iByte+1]) << 8
-		fallthrough
-	case 1:
-		remainingBytes += uint64(key[iByte])
-		remainingBytes *= c1
-		remainingBytes = (remainingBytes << r1) | (remainingBytes >> (32 - r1))
-		remainingBytes = remainingBytes * c2
-		hash ^= remainingBytes
-	}
-
-	hash ^= uint64(len(key))
-	hash ^= hash >> 16
-	hash *= c3
-	hash ^= hash >> 13
-	hash *= c4
-	hash ^= hash >> 16
-
-	// 出发吧，狗嬷嬷！
-	return
 }
 
 // StringToInt 字符串转整数
@@ -236,12 +181,15 @@ func ReleaseAssets(file fs.File, out string) {
 // DirSizeB DirSizeMB getFileSize get file size by path(B)
 func DirSizeB(path string) int64 {
 	var size int64
-	filepath.Walk(path, func(_ string, info os.FileInfo, err error) error {
+	err := filepath.Walk(path, func(_ string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
 			size += info.Size()
 		}
 		return err
 	})
+	if err != nil {
+		return 0
+	}
 
 	return size
 }

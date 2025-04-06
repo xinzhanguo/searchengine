@@ -51,7 +51,9 @@ func (s *LeveldbStorage) task() {
 	for {
 
 		if !s.isClosed() && time.Now().Unix()-s.lastTime > s.timeout {
-			s.Close()
+			if err := s.Close(); err != nil {
+				return
+			}
 			//log.Println("leveldb storage timeout", s.path)
 		}
 
