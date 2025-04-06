@@ -8,7 +8,7 @@
           fill="#2DBCAF" p-id="6655"
       ></path>
     </svg>
-    <h1 style="margin-top:0px;">GoFound Admin</h1>
+    <h1 style="margin-top:0px;">SearchEngine Admin</h1>
   </div>
   <el-menu
       :default-active="active+''"
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     openDocument() {
-      window.open('https://gitee.com/tompeppa/gofound')
+      window.open('https://github.com/xinzhanguo/searchengine')
     },
   },
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func Welcome(c *gin.Context) {
-	ResponseSuccessWithData(c, "Welcome to GoFound")
+	ResponseSuccessWithData(c, "Welcome to SearchEngine")
 }
 
 // Query 查询

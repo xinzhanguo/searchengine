@@ -8,7 +8,7 @@
         <el-col :span="12"><span v-text="memory.used"></span>GB</el-col>
         <el-col :span="12">剩余</el-col>
         <el-col :span="12"><span v-text="memory.free"></span>GB</el-col>
-        <el-col :span="12">GoFound使用</el-col>
+        <el-col :span="12">SearchEngine使用</el-col>
         <el-col :span="12"><span v-text="memory.self"></span>GB</el-col>
       </el-row>
     </el-col>
