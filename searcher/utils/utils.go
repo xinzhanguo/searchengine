@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/gob"
-	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -55,12 +54,8 @@ func Decoder(data []byte, v interface{}) {
 
 func Murmur3(key []byte) uint64 {
 	hasher := murmur3.New64WithSeed(1)
-	n, err := hasher.Write(key)
-	fmt.Println(n)
-	fmt.Println(err)
-	x := hasher.Sum64()
-	fmt.Println(x)
-	return x
+	hasher.Write(key)
+	return hasher.Sum64()
 }
 
 // StringToInt 字符串转整数

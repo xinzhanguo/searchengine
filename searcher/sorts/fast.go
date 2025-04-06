@@ -37,11 +37,11 @@ func (x SortSlice) Swap(i, j int) {
 
 }
 
-type Uint32Slice []uint64
+type Uint64Slice []uint64
 
-func (x Uint32Slice) Len() int           { return len(x) }
-func (x Uint32Slice) Less(i, j int) bool { return x[i] < x[j] }
-func (x Uint32Slice) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
+func (x Uint64Slice) Len() int           { return len(x) }
+func (x Uint64Slice) Less(i, j int) bool { return x[i] < x[j] }
+func (x Uint64Slice) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }
 
 type FastSort struct {
 	sync.Mutex

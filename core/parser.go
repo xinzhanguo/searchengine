@@ -8,7 +8,7 @@ import (
 
 	"github.com/xinzhanguo/searchengine/global"
 
-	"gopkg.in/yaml.v3"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // Parser 解析器
@@ -41,9 +41,7 @@ func Parser() *global.Config {
 	config := &global.Config{}
 
 	if *configPath != "" {
-		//解析配置文件
-		//file, err := ioutil.ReadFile(*configPath)
-		file, err := os.ReadFile(*configPath) //详情：https://github.com/golang/go/issues/42026
+		file, err := os.ReadFile(*configPath)
 		if err != nil {
 			panic(err)
 		}
